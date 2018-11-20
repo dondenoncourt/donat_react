@@ -1,10 +1,9 @@
 const { compose, replace, map, prop, log, pipe } = require('rambda')
 const { getJSON } = require('jquery')
 const Task = require('data.task') // see https://www.npmjs.com/package/data.task
-const R = require('ramda');
 
 const Http = {
-  get: (url) => new Task((rej, res) => getJSON(url).fail(rej).done(res))
+  get: (url) => new Task((rej, res) => getJSON(url).error(rej).done(res))
   //get: (url) => new Task((rej, res) => console.log(url))
 }
 
@@ -20,18 +19,34 @@ const makeUrl = (t) => {
   return tags
 }
 
-//const extractUrls = compose( map(prop('url_s')), prop('photo'), prop('photos'))
+//const extractUrls = console.log // pipe( prop('photos'), map(log))
+const extractUrls = compose( map(prop('url_s')), prop('photos'))
 //const extractUrls = compose( map(prop('url_s')), prop('photo'), prop('photos'))
 //const extractUrls = compose( log, prop('photos'), prop('photos'))
-//const extractUrls = compose( map(log) )
+//const extractUrls = compose( console.log)
 
-const extractUrls = (response, y, z) => {
+/*
+const extractUrls = pipe(
+  prop('photos'),
+  map(console.log),
+  prop('photo'),
+  map(console.log),
+  map(prop('url_s'))
+)
+*/
+
+/*
+const extractUrls = (response) => {
+  console.log(prop('photos'))
+  debugger
   console.log("extractUrls:")
   console.log(response)
   console.log(prop('photos', response))
 }
+*/
 
 // see 13;12 of https://www.youtube.com/watch?v=h_tkIpwbsxY
+/*
 const flickrSearch = (searchFor) => {
   console.log('searchFor:'+searchFor)
   const url = makeUrl(searchFor)
@@ -39,7 +54,8 @@ const flickrSearch = (searchFor) => {
   console.log(url+' got '+got)
   debugger
 }
-//const flickrSearch = compose( map(extractUrls), Http.get, makeUrl )
+*/
+const flickrSearch = compose( map(extractUrls), Http.get, makeUrl )
 //const flickrSearch = compose( (x) => console.log(x), Http.get, makeUrl )
 //const flickrSearch = compose(Http.get, makeUrl )
 

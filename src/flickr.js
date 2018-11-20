@@ -9,7 +9,6 @@ module.exports = createReactClass({
 
   termChanged({currentTarget: t}) { this.setState({term: t.value}) },
 
-  //searchClicked(_) {console.log(this.state.term) },
   //searchClicked(_) { flickrSearch(this.state.term).fork(this.props.showError, (x) => console.log(x) ) },
   //searchClicked(_) { flickrSearch(this.state.term).fork((x) => console.log(x), (x) => console.log(x) ) },
   searchClicked(_) { flickrSearch(this.state.term) },
