@@ -1,6 +1,7 @@
+//const { flickrSearch } = require("./flickr")
+const { flickr } = require("./model")
 const React = require('react')
 const createReactClass = require('create-react-class');
-const { flickrSearch } = require('./model')
 
 module.exports = createReactClass({
   displayName: 'Flickr',
@@ -11,7 +12,8 @@ module.exports = createReactClass({
 
   //searchClicked(_) { flickrSearch(this.state.term).fork(this.props.showError, (x) => console.log(x) ) },
   //searchClicked(_) { flickrSearch(this.state.term).fork((x) => console.log(x), (x) => console.log(x) ) },
-  searchClicked(_) { flickrSearch(this.state.term) },
+  //searchClicked(_) { flickr(this.state.term) },
+  searchClicked(_) { console.log(flickr) },
 
   render() {
     return (
