@@ -1,19 +1,40 @@
 const { getJSON } = require('jquery')
 const { compose } = require('rambda')
+//const fetch = require('whatwg-fetch').fetch
 
-let urls = (data)=> {
-  return data.items.map((item)=> item.media.m)
+let urls = data => {
+  debugger
+  console.log('urls('+data+')')
+  return data.photos.map((item)=> item.media.m)
 }
 let images = (urls)=> {
+  //console.log("urls:"+urls)
   return urls.map((url) => ('<img />', { src: url })[0] )
 }
+//let responseToImages = compose(images, urls, console.log)
 let responseToImages = compose(images, urls)
 
 let flickr = (tags)=> {
-  let url = `http://api.flickr.com/services/feeds/photos_public.gne?tags=${tags}&format=json&jsoncallback=?`
-  return fetch(url)
-  .then((response)=> response.json())
-  .then(responseToImages)
+  //let url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=c45ce720ddd5058e972b9221a79cbd01&tags='+tags+'&extras=url_s&format=json&jsoncallback=?'
+  //see: https://hacks.mozilla.org/2015/03/this-api-is-so-fetching/
+  // test API at https://www.flickr.com/services/api/explore/flickr.photos.search
+  // https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=338af50560c37293e53adcee58fa5d84&tags=elephant&extras=url_s&format=rest&api_sig=fe60306659c77c3876181cdd6f494619
+  let u = new URLSearchParams();
+  //u.append('method', 'flickr.interestingness.getList');
+  u.append('method', 'flickr.photos.search');
+  u.append('api_key', 'c45ce720ddd5058e972b9221a79cbd01');
+  u.append('format', 'json');
+  u.append('nojsoncallback', '1');
+  u.append('tags', 'elephant');
+  u.append('extras', 'url_s');
+  const apiCall = fetch('https://api.flickr.com/services/rest?' + u);
+  //return fetch(url)
+  apiCall.then((response)=> {
+    const json = response.json()
+    //console.log(json)
+    return json
+  })
+  .then(responseToImages).catch(e => {console.log('on poop...:'+e) })
 }
 
 //export default {

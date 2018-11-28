@@ -12,8 +12,8 @@ module.exports = createReactClass({
 
   //searchClicked(_) { flickrSearch(this.state.term).fork(this.props.showError, (x) => console.log(x) ) },
   //searchClicked(_) { flickrSearch(this.state.term).fork((x) => console.log(x), (x) => console.log(x) ) },
-  //searchClicked(_) { flickr(this.state.term) },
-  searchClicked(_) { console.log(flickr) },
+  searchClicked(_) { flickr(this.state.term) },
+  //searchClicked(_) { console.log(flickr) },
 
   render() {
     return (
