@@ -1,18 +1,18 @@
-const { getJSON } = require('jquery')
+//const { getJSON } = require('jquery')
 const { compose } = require('rambda')
 //const fetch = require('whatwg-fetch').fetch
 
 let urls = data => {
-  debugger
-  console.log('urls('+data+')')
-  return data.photos.map((item)=> item.media.m)
+  const url_s = data.photos.photo.map((photo)=> photo.url_s)
+  return url_s
 }
 let images = (urls)=> {
   //console.log("urls:"+urls)
   return urls.map((url) => ('<img />', { src: url })[0] )
 }
-//let responseToImages = compose(images, urls, console.log)
 let responseToImages = compose(images, urls)
+
+let img = url => $('<img />', { src: url }
 
 let flickr = (tags)=> {
   //let url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=c45ce720ddd5058e972b9221a79cbd01&tags='+tags+'&extras=url_s&format=json&jsoncallback=?'
@@ -25,7 +25,8 @@ let flickr = (tags)=> {
   u.append('api_key', 'c45ce720ddd5058e972b9221a79cbd01');
   u.append('format', 'json');
   u.append('nojsoncallback', '1');
-  u.append('tags', 'elephant');
+  debugger
+  u.append('tags', tags);
   u.append('extras', 'url_s');
   const apiCall = fetch('https://api.flickr.com/services/rest?' + u);
   //return fetch(url)
